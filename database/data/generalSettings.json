@@ -1,0 +1,67 @@
+[
+    {
+        "name": "mobile",
+        "value": "(423) 267-6266",
+        "short_desc": ""
+    },
+    {
+        "name": "emailid",
+        "value": "info@exceedfilters.com",
+        "short_desc": ""
+    },
+    {
+        "name": "address",
+        "value": "7151 Discovery Drive #1627, Chattanooga, TN 37416",
+        "short_desc": ""
+    },
+    {
+        "name": "company_name",
+        "value": "Exceed Filters",
+        "short_desc": ""
+    },
+    {
+        "name": "opening_time",
+        "value": "9am",
+        "short_desc": ""
+    },
+    {
+        "name": "closing_time",
+        "value": "6pm",
+        "short_desc": ""
+    },
+    {
+        "name": "common-title",
+        "value": "Exceed Filters | Nanofiber air filters work smarter and harder",
+        "short_desc": ""
+    },
+    {
+        "name": "common-short_desc",
+        "value": "At exceed, we believe that every individual has the right to breathe clean air. Our nanofiber air filters work smarter and harder to trap dust, dander, pollen, and fine aerosol particles.",
+        "short_desc": ""
+    },
+    {
+        "name": "common-keywords",
+        "value": "air filters, smart filters",
+        "short_desc": ""
+    },
+    {
+        "name": "open_on",
+        "value": "monday,tuesday,wednesday,thrusday,friday",
+        "short_desc": ""
+    },
+    {
+        "name": "facebook",
+        "value": "",
+        "short_desc": ""
+    },
+    {
+        "name": "instagram",
+        "value": "",
+        "short_desc": ""
+    },
+    {
+        "name": "twitter",
+        "value": "",
+        "short_desc": ""
+    }
+]

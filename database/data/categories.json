@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Pleated Filters",
+        "long_desc": "MERV 8 to MERV 13",
+        "short_desc": "MERV 8 to MERV 13"
+    },
+    {
+        "name": "Minipleat Filters",
+        "long_desc": "MERV 13 to HEPA",
+        "short_desc": "MERV 13 to HEPA"
+    },
+    {
+        "name": "Rigid Cell Filters",
+        "long_desc": "MERV 11 to 15",
+        "short_desc": "MERV 11 to 15"
+    },
+    {
+        "name": "Pocket Bag Filters",
+        "long_desc": "MERV 11 to 15",
+        "short_desc": "MERV 11 to 15"
+    },
+    {
+        "name": "V Cell Air Filters",
+        "long_desc": "MERV 13 to HEPA",
+        "short_desc": "MERV 13 to HEPA"
+    },
+    {
+        "name": "Aluminum Separator Filters",
+        "long_desc": "MERV 13 to HEPA",
+        "short_desc": "MERV 13 to HEPA"
+    }
+]
