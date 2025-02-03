@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralSettingController;
 use App\Http\Controllers\ProductEnquiryController;
@@ -23,13 +23,13 @@ use App\Http\Controllers\ProductEnquiryController;
 // Frontend Pages Get Request
 Route::get('/',[FrontendController::class, 'index']);
 Route::get('/about-us',[FrontendController::class, 'aboutus']);
-Route::get('/product-details/{product_uid}',[FrontendController::class, 'product_details']);
-Route::get('/products-list',[FrontendController::class, 'products_list']);
+Route::get('/program-details/{program_uid}',[FrontendController::class, 'program_details']);
+Route::get('/programs-list',[FrontendController::class, 'programs_list']);
 Route::get('/cost-saving-calculation',[FrontendController::class, 'cost_saving_calculator']);
 Route::get('/contact-us',[FrontendController::class, 'contactus']);
 
 // Frontend Pages Post Request.
-Route::post('/product-enquiry',[FrontendController::class, 'submit-enquiry-form']);
+Route::post('/program-enquiry',[FrontendController::class, 'submit-enquiry-form']);
 Route::post('/contact-us',[FrontendController::class, 'submit-contact-form']);
 
 // Admin PAnel Routes
@@ -46,12 +46,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/generate-password/{newpass}',[AdminController::class,'generatePassword'])->name('generatePassword');
 
     // Products Routes
-    Route::get('/product/all',[ProductController::class,'index'])->name('productsAll');
-    Route::get('/product/add',[ProductController::class,'create'])->name('productAdd');
-    Route::get('/product/edit/{product_uid}',[ProductController::class,'edit'])->name('productEdit');
-    Route::get('/product/assets/get/{product_uid}',[ProductController::class,'getAssets'])->name('productGetAssets');
-    Route::get('/product/sepcifications/get/{product_uid}',[ProductController::class,'getSepcifications'])->name('productGetSepcifications');
-    Route::get('/product/enquiries',[ProductEnquiryController::class,'index'])->name('productsEnquiryAll');
+    Route::get('/program/all',[ProgramController::class,'index'])->name('pr3ogramsAll');
+    Route::get('/program/add',[ProgramController::class,'create'])->name('programAdd');
+    Route::get('/program/edit/{program_uid}',[ProgramController::class,'edit'])->name('programEdit');
+    Route::get('/program/assets/get/{program_uid}',[ProgramController::class,'getAssets'])->name('programGetAssets');
+    Route::get('/program/enquiries',[ProductEnquiryController::class,'index'])->name('programsEnquiryAll');
 
     // Category Routes
     Route::get('/category/all',[CategoryController::class,'index'])->name('categories');
@@ -63,13 +62,11 @@ Route::prefix('admin')->group(function () {
     // Post Routes
     Route::post('/adminLoginPost',[AdminController::class,'adminLoginPost']);
 
-    Route::post('/product/add',[ProductController::class,'store'])->name('productAddPost');
-    Route::post('/product/edit/{product_uid}',[ProductController::class,'update'])->name('productEdit');
-    Route::post('/product/delete/{product_uid}',[ProductController::class,'delete'])->name('productEdit');
-    Route::post('/product/addAssets',[ProductController::class,'addAssets'])->name('productAddAssets');
-    Route::post('/product/addSpecification',[ProductController::class,'addSpecification'])->name('productAddSpecification');
-    Route::post('/product/deleteAssets/{product_uid}/{key}',[ProductController::class,'deleteAssets'])->name('productDeleteAssets');
-    Route::post('/product/deleteSpecifications/{product_uid}/{key}',[ProductController::class,'deleteSpecifications'])->name('productDeleteAssets');
+    Route::post('/program/add',[ProgramController::class,'store'])->name('programAddPost');
+    Route::post('/program/edit/{program_uid}',[ProgramController::class,'update'])->name('programEdit');
+    Route::post('/program/delete/{program_uid}',[ProgramController::class,'delete'])->name('programDelete');
+    Route::post('/program/addAssets',[ProgramController::class,'addAssets'])->name('programAddAssets');
+    Route::post('/program/deleteAssets/{program_uid}/{key}',[ProgramController::class,'deleteAssets'])->name('programDeleteAssets');
     
     Route::post('/category/add',[CategoryController::class,'store'])->name('categoryAddPost');
     Route::post('/category/edit/{category_uid}',[CategoryController::class,'update'])->name('categoryEdit');

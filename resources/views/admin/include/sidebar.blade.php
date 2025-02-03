@@ -27,52 +27,95 @@
             </a>
         </li>
 
+        <li class="menu-item {{ $page_type == 'programAll' || $page_type == 'programAdd' || $page_type == 'programEdit' || $page_type == 'programsEnquiryAll' ? 'open':'' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-home"></i>
+                <div data-i18n="Layouts">Programs</div>
+            </a>
+
+            <ul class="menu-sub">
+
+                <li class="menu-item {{ $page_type == 'programsEnquiryAll' ? 'active':''}}">
+                    <a href="{{url('/admin/program/enquiries')}}" class="menu-link">
+                        <div data-i18n="Without menu">All Programs Enquiries</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ $page_type == 'programAll' ? 'active':''}}">
+                    <a href="{{url('/admin/program/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">All Programs</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ $page_type == 'programAdd'?'active':''}}">
+                    <a href="{{url('/admin/program/add')}}" class="menu-link">
+                        <div data-i18n="Without navbar">Add new Program</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class="menu-item {{ $page_type == 'categoryAll' || $page_type == 'categoryAdd' || $page_type == 'categoryEdit' ?'open':'' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-home"></i>
-                <div data-i18n="Layouts">Category</div>
+                <div data-i18n="Layouts">Gallery</div>
             </a>
 
             <ul class="menu-sub">
 
                 <li class="menu-item {{ $page_type == 'categoryAll' ? 'active':''}}">
                     <a href="{{url('/admin/category/all')}}" class="menu-link">
-                        <div data-i18n="Without menu">All Categories</div>
+                        <div data-i18n="Without menu">All Gallery Items</div>
                     </a>
                 </li>
 
                 <li class="menu-item {{ $page_type == 'categoryAdd' ? 'active':''}}">
                     <a href="{{url('/admin/category/add')}}" class="menu-link">
-                        <div data-i18n="Without navbar">Add new Category</div>
+                        <div data-i18n="Without navbar">Add new Gallery Item</div>
                     </a>
                 </li>
             </ul>
         </li>
 
-
-        <li class="menu-item {{ $page_type == 'productAll' || $page_type == 'productAdd' || $page_type == 'productEdit' || $page_type == 'productsEnquiryAll' ? 'open':'' }}">
+        <li class="menu-item {{ $page_type == 'categoryAll' || $page_type == 'categoryAdd' || $page_type == 'categoryEdit' ?'open':'' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-home"></i>
-                <div data-i18n="Layouts">Products</div>
+                <div data-i18n="Layouts">FAQs</div>
             </a>
 
             <ul class="menu-sub">
 
-                <li class="menu-item {{ $page_type == 'productsEnquiryAll' ? 'active':''}}">
-                    <a href="{{url('/admin/product/enquiries')}}" class="menu-link">
-                        <div data-i18n="Without menu">All Products Enquiries</div>
+                <li class="menu-item {{ $page_type == 'categoryAll' ? 'active':''}}">
+                    <a href="{{url('/admin/category/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">All FAQs</div>
                     </a>
                 </li>
 
-                <li class="menu-item {{ $page_type == 'productAll' ? 'active':''}}">
-                    <a href="{{url('/admin/product/all')}}" class="menu-link">
-                        <div data-i18n="Without menu">All Products</div>
+                <li class="menu-item {{ $page_type == 'categoryAdd' ? 'active':''}}">
+                    <a href="{{url('/admin/category/add')}}" class="menu-link">
+                        <div data-i18n="Without navbar">Add new FAQ</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ $page_type == 'categoryAll' || $page_type == 'categoryAdd' || $page_type == 'categoryEdit' ?'open':'' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-home"></i>
+                <div data-i18n="Layouts">Reviews</div>
+            </a>
+
+            <ul class="menu-sub">
+
+                <li class="menu-item {{ $page_type == 'categoryAll' ? 'active':''}}">
+                    <a href="{{url('/admin/category/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">All Reviews</div>
                     </a>
                 </li>
 
-                <li class="menu-item {{ $page_type == 'productAdd'?'active':''}}">
-                    <a href="{{url('/admin/product/add')}}" class="menu-link">
-                        <div data-i18n="Without navbar">Add new Product</div>
+                <li class="menu-item {{ $page_type == 'categoryAdd' ? 'active':''}}">
+                    <a href="{{url('/admin/category/add')}}" class="menu-link">
+                        <div data-i18n="Without navbar">Add new Review</div>
                     </a>
                 </li>
             </ul>

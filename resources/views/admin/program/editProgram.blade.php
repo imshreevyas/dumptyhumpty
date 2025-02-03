@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Edit Product</title>
+    <title>Edit Program</title>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
 
     <meta name="description" content="" />
@@ -36,34 +36,23 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products /</span>
-                            Edit Product</h4>
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Programs /</span>
+                            Edit Program</h4>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <form id="editProduct">
                                     <div class="card mb-4">
-                                        <h5 class="card-header">Product Details</h5>
+                                        <h5 class="card-header">Program Details</h5>
                                         <!-- Account -->
 
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="product_name" class="form-label">Select Category</label>
-                                                    <select name="category_uid" class="form-control">
-                                                        @if(count($categories) > 0)
-                                                            @foreach($categories as $category)
-                                                            <option value="{{ $category['category_uid'] }}" {{ $category['category_uid'] == $product->category_uid ? 'selected' : '' }}>{{ $category['name'] }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                </div>
-
-                                                <div class="mb-3 col-md-4">
-                                                    <label for="product_name" class="form-label">Product Name</label>
+                                                    <label for="product_name" class="form-label">Program Name</label>
                                                     <input class="form-control" type="text" id="product_name"
                                                         name="product_name" value="{{ $product->product_name }}"
-                                                        placeholder="Enter Product Name" />
+                                                        placeholder="Enter Program Name" />
                                                 </div>
 
                                             </div>
@@ -71,7 +60,7 @@
                                     </div>
 
                                     <div class="card mb-4">
-                                        <h5 class="card-header">Product Description</h5>
+                                        <h5 class="card-header">Program Description</h5>
                                         <!-- Account -->
 
                                         <div class="card-body">
@@ -79,7 +68,7 @@
                                                 <div class="mb-3 col-md-12" id="editor">
                                                     <textarea style="height:150px" class="form-control" type="text"
                                                         id="long_desc" name="long_desc" value="{{ $product->long_desc }}"
-                                                        placeholder="Enter Product Description">{{ $product->long_desc }}</textarea>
+                                                        placeholder="Enter Program Description">{{ $product->long_desc }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +77,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <button class="btn btn-primary btn-lg" type="submit"
-                                                name="submitBtn">Edit Product</button>
+                                                name="submitBtn">Edit Program</button>
                                         </div>
                                     </div>
                                 </form>
