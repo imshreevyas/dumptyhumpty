@@ -46,6 +46,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <form id="addProgram">
+                                    @csrf
                                     <div class="card mb-4">
                                         <h5 class="card-header">Program Basic Details</h5>
                                         <!-- Account -->
@@ -89,7 +90,13 @@
                                                     <label for="title" class="form-label">Program Title</label>
                                                     <input class="form-control" type="text" id="title"
                                                     name="title" value=""
-                                                    placeholder="Enter Page Title" />
+                                                    placeholder="Enter Page Title"  oninput="validate_max_length(this, 60)"/>
+                                                </div>
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="title" class="form-label">Program Slug</label>
+                                                    <input class="form-control" type="text" id="slug"
+                                                    name="slug" value="" 
+                                                    placeholder="Enter Page Title" oninput="validate_max_length(this, 60)" readonly/>
                                                 </div>
                                                 <div class="mb-3 col-md-12" id="editor">
                                                     <label for="short_description" class="form-label">Program Short Description</label>
@@ -160,7 +167,7 @@
 
                                     <!-- Upload Images -->
                                     <div class="card mb-4">
-                                        <h5 class="card-header">Program Banner</h5>
+                                        <h5 class="card-header">Program Banner <span style="color:red">(W:280px, H:190px)</span></h5>
                                         <div class="card-body doc-div">
                                             <div class="row">
                                                 <div class="mb-3 col-md-4">
@@ -171,6 +178,23 @@
 
                                                 <div class="mb-3 col-md-6">
                                                     <img id="preview_banner" style="width: 285px; height: 200px; margin-top: 10px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-4">
+                                        <h5 class="card-header">Program Page Banner <span style="color:red">(W:1920px, H:400px)</span></h5>
+                                        <div class="card-body doc-div">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="page_banner" class="form-label">Select Page Banner</label>
+                                                    <input class="form-control" type="file" id="page_banner"
+                                                        name="page_banner" onchange="previewFile(this, 'preview_page_banner')"/>
+                                                </div>
+
+                                                <div class="mb-3 col-md-6">
+                                                    <img id="preview_page_banner" style="width: 500px; height: auto; aspect-ratio: 1920 / 400; margin-top: 10px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -230,12 +254,15 @@
 
     $('#addProgram').on('submit', function(e) {
         e.preventDefault();
+        $('#submitBtn').text('Please Wait...');
         axios.post(`${url}/admin/program/add`, new FormData(this)).then(function(response) {
             // handle success
+
+            $('#submitBtn').text('Save Program');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
                 setTimeout(() => {
-                    window.location.href = `${url}/admin/commercial/add`;
+                    window.location.href = `${url}/admin/program/add`;
                 }, 500);
             }
         }).catch(function(err) {
@@ -268,6 +295,18 @@
             reader.readAsDataURL(file); // Convert to base64
         }
     }
+
+    document.getElementById('title').addEventListener('input', function () {
+        let title = this.value;
+        let slug = title
+            .toLowerCase() // Convert to lowercase
+            .trim() // Remove leading/trailing spaces
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .replace(/-+/g, '-'); // Remove multiple hyphens
+
+        document.getElementById('slug').value = slug;
+    });
 
     </script>
 </body>

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('faqs', function (Blueprint $table) {
+        Schema::create('free_materials', function (Blueprint $table) {
             $table->id();
-            $table->string('faq_uid');
-            $table->text('question');
-            $table->longText('answer');
+            $table->string('file_uid')->unique();
+            $table->string('file_og_name');
+            $table->string('age_group');
+            $table->string('file_url');
             $table->integer('status')->default(1);
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('faqs');
+        Schema::dropIfExists('free_materials');
     }
 };

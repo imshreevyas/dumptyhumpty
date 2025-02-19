@@ -41,18 +41,36 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="editProduct">
+                                <form id="editProgram">
+                                    @csrf
                                     <div class="card mb-4">
-                                        <h5 class="card-header">Program Details</h5>
+                                        <h5 class="card-header">Program Basic Details</h5>
                                         <!-- Account -->
 
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="product_name" class="form-label">Program Name</label>
-                                                    <input class="form-control" type="text" id="product_name"
-                                                        name="product_name" value="{{ $product->product_name }}"
+                                                    <label for="name" class="form-label">Program Name</label>
+                                                    <input class="form-control" type="text" id="name"
+                                                        name="name" value="{{ $data->name }}"
                                                         placeholder="Enter Program Name" />
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="age_group" class="form-label">Age Group</label>
+                                                    <input class="form-control" type="text" id="age_group"
+                                                        name="age_group" value="{{ $data->age_group }}" placeholder="Enter Age Group" />
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="duration_for_week" class="form-label">Duration for Week</label>
+                                                    <input class="form-control" type="text" id="duration_for_week"
+                                                        name="duration_for_week" value="{{ $data->duration_for_week }}"
+                                                        placeholder="Enter Duration for Week" />
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="duration" class="form-label">Program Duration</label>
+                                                    <input class="form-control" type="text" id="duration"
+                                                        name="duration" value="{{ $data->duration }}"
+                                                        placeholder="Enter Program Duration" />
                                                 </div>
 
                                             </div>
@@ -60,15 +78,87 @@
                                     </div>
 
                                     <div class="card mb-4">
-                                        <h5 class="card-header">Program Description</h5>
+                                        <h5 class="card-header">Program Page Details</h5>
                                         <!-- Account -->
 
                                         <div class="card-body">
                                             <div class="row">
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="title" class="form-label">Program Title</label>
+                                                    <input class="form-control" type="text" id="title"
+                                                    name="title" value="{{ $data->title }}"
+                                                    placeholder="Enter Page Title"  oninput="validate_max_length(this, 60)"/>
+                                                </div>
+                                                
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="title" class="form-label">Program Slug</label>
+                                                    <input class="form-control" type="text" id="slug"
+                                                    name="slug" value="{{ $data->slug }}" 
+                                                    placeholder="Enter Page Title" oninput="validate_max_length(this, 60)" readonly/>
+                                                </div>
                                                 <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="short_description" class="form-label">Program Short Description</label>
+                                                    <textarea style="height:80px" class="form-control" type="text"
+                                                    id="short_description" name="short_description" value="{{ $data->short_description }}"
+                                                    placeholder="Enter Program Short Description">{{ $data->short_description }}</textarea>
+                                                </div>
+                                                
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="long_description" class="form-label">Program Long Description</label>
                                                     <textarea style="height:150px" class="form-control" type="text"
-                                                        id="long_desc" name="long_desc" value="{{ $product->long_desc }}"
-                                                        placeholder="Enter Program Description">{{ $product->long_desc }}</textarea>
+                                                    id="long_description" name="long_description" value="{{ $data->long_description }}"
+                                                    placeholder="Enter Program Long Description">{{ $data->long_description }}</textarea>
+                                                </div>
+                                                
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="learning_areas" class="form-label">Program Learning Areas </label>
+                                                    <textarea style="height:150px" class="form-control" type="text"
+                                                    id="learning_areas" name="learning_areas" value="{{ $data->learning_areas }}"
+                                                    placeholder="Enter Program Learning Areas">{{ $data->learning_areas }}</textarea>
+                                                </div>
+                                                
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="activities" class="form-label">Program Activities</label>
+                                                    <textarea style="height:150px" class="form-control" type="text"
+                                                        id="activities" name="activities" value="{{ $data->activities }}"
+                                                        placeholder="Enter Program Activities">{{ $data->activities }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card mb-4">
+                                        <h5 class="card-header">Program SEO Details</h5>
+                                        <!-- Account -->
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="title" class="form-label">SEO Title <span style="color:red">(Only 60 Characters)</span></label>
+                                                    <input class="form-control" type="text" id="seo_title"
+                                                    name="seo_title" value="{{ $data->seo_title }}"
+                                                    placeholder="Enter Page Title" oninput="validate_max_length(this, 60)"/>
+                                                </div>
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="seo_description" class="form-label">Program SEO Description <span style="color:red">(Only 160 Characters)</span></label>
+                                                    <textarea style="height:80px" class="form-control" type="text"
+                                                    id="seo_description" name="seo_description" value="{{ $data->seo_description }}"
+                                                    placeholder="Enter Program Short Description" oninput="validate_max_length(this, 160)">{{ $data->seo_description }}</textarea>
+                                                </div>
+
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="seo_keywords" class="form-label">Program SEO Keywords</label>
+                                                    <textarea style="height:150px" class="form-control" type="text"
+                                                    id="seo_keywords" name="seo_keywords" value="{{ $data->seo_keywords }}"
+                                                    placeholder="Enter Program SEO Keywords">{{ $data->seo_keywords }}</textarea>
+                                                </div>
+
+                                                <div class="mb-3 col-md-12" id="editor">
+                                                    <label for="schemas" class="form-label">Program Schemas <span style="color:red">(Create Schema and paste JSON here)</span></label>
+                                                    <textarea style="height:150px" class="form-control" type="text"
+                                                    id="schemas" name="schemas" value="{{ $data->schema }}"
+                                                    placeholder="Enter Program Schemas">{{ $data->schema }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,7 +167,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <button class="btn btn-primary btn-lg" type="submit"
-                                                name="submitBtn">Edit Program</button>
+                                                name="submitBtn" id="submitBtn">Edit Program</button>
                                         </div>
                                     </div>
                                 </form>
@@ -106,24 +196,61 @@
     <script>
     
     ClassicEditor
-    .create( document.querySelector( '#long_desc' ) )
+    .create(document.querySelector('#long_description') )
+    .catch(error => {
+        console.error( error );
+    });
+
+    // CK editor for Activities
+    ClassicEditor
+    .create( document.querySelector('#activities') )
     .catch( error => {
         console.error( error );
     } );
 
-    $('#editProduct').on('submit', function(e) {
+    // CK editor for Learning Areas
+    ClassicEditor
+    .create( document.querySelector('#learning_areas') )
+    .catch( error => {
+        console.error( error );
+    } );
+
+
+    function validate_max_length(inputElement, maxLength) {
+        if (inputElement.value.length > maxLength) {
+            inputElement.value = inputElement.value.substring(0, maxLength); // Truncate excess characters
+            show_Toaster('It is officially Recommended only '+maxLength+' Characters', 'error')
+        }
+    }
+
+    $('#editProgram').on('submit', function(e) {
         e.preventDefault();
-        axios.post(`${url}/admin/product/edit/{{ $product['product_uid'] }}`, new FormData(this)).then(function(response) {
+        $('#submitBtn').text('Please Wait...');
+        axios.post(`${url}/admin/program/edit/{{ $data['program_uid'] }}`, new FormData(this)).then(function(response) {
             // handle success
+            $('#submitBtn').text('Edit Program');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
                 setTimeout(() => {
-                    window.location.href = `${url}/admin/product/all`;
+                    window.location.href = `${url}/admin/program/all`;
                 }, 500);
             }
         }).catch(function(err) {
+            $('#submitBtn').text('Edit Program');
             show_Toaster(err.response.data.message, 'error')
         })
+    });
+
+    document.getElementById('title').addEventListener('input', function () {
+        let title = this.value;
+        let slug = title
+            .toLowerCase() // Convert to lowercase
+            .trim() // Remove leading/trailing spaces
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .replace(/-+/g, '-'); // Remove multiple hyphens
+
+        document.getElementById('slug').value = slug;
     });
     </script>
 </body>

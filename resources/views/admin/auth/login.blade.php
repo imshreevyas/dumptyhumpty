@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                                <button id="submitBTN" class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                             </div>
                         </form>
 
@@ -75,8 +75,10 @@
     <script>
     $('#login').on('submit', function(e) {
         e.preventDefault();
+        $('#submitBTN').text('Please Wait...');
         axios.post(`${url}/admin/adminLoginPost`, new FormData(this)).then(function(response) {
             // handle success
+            $('#submitBTN').text('Sign in');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
                 setTimeout(() => {
@@ -84,8 +86,15 @@
                 }, 500);
             }
         }).catch(function(err) {
-            console.log(err);
-            show_Toaster(err.response.data.message, 'error')
+            $('#submitBTN').text('Login');
+            if (err.response && err.response.data.errors) {
+                let errors = err.response.data.errors;
+                $.each(errors, function (key, messages) {
+                    show_Toaster(messages[0], 'error')
+                });
+            }else{
+                show_Toaster(err.response.data.message, 'error')
+            }
         })
     });
     </script>

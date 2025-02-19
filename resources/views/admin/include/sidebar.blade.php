@@ -77,7 +77,7 @@
             </ul>
         </li>
 
-        <li class="menu-item {{ $page_type == 'categoryAll' || $page_type == 'categoryAdd' || $page_type == 'categoryEdit' ?'open':'' }}">
+        <li class="menu-item {{ $page_type == 'faqAll' || $page_type == 'faqAdd' || $page_type == 'faqEdit' ?'open':'' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-home"></i>
                 <div data-i18n="Layouts">FAQs</div>
@@ -85,14 +85,14 @@
 
             <ul class="menu-sub">
 
-                <li class="menu-item {{ $page_type == 'categoryAll' ? 'active':''}}">
-                    <a href="{{url('/admin/category/all')}}" class="menu-link">
+                <li class="menu-item {{ $page_type == 'faqAll' ? 'active':''}}">
+                    <a href="{{url('/admin/faq/all')}}" class="menu-link">
                         <div data-i18n="Without menu">All FAQs</div>
                     </a>
                 </li>
 
-                <li class="menu-item {{ $page_type == 'categoryAdd' ? 'active':''}}">
-                    <a href="{{url('/admin/category/add')}}" class="menu-link">
+                <li class="menu-item {{ $page_type == 'faqAdd' ? 'active':''}}">
+                    <a href="{{url('/admin/faq/add')}}" class="menu-link">
                         <div data-i18n="Without navbar">Add new FAQ</div>
                     </a>
                 </li>
@@ -116,6 +116,34 @@
                 <li class="menu-item {{ $page_type == 'categoryAdd' ? 'active':''}}">
                     <a href="{{url('/admin/category/add')}}" class="menu-link">
                         <div data-i18n="Without navbar">Add new Review</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ $page_type == 'userAll' || $page_type == 'freeMaterialAll' || $page_type == 'freeMaterialAdd' || $page_type == 'freeMaterialEdit' ?'open':'' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bxs-home"></i>
+                <div data-i18n="Layouts">Free Materials</div>
+            </a>
+
+            <ul class="menu-sub">
+
+                <li class="menu-item {{ $page_type == 'usersAll' ? 'active':''}}">
+                    <a href="{{url('/admin/free-material-users/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">All Users</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ $page_type == 'freeMaterialAll' ? 'active':''}}">
+                    <a href="{{url('/admin/free-material-users/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">All Free Materials</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ $page_type == 'freeMaterialAdd' ? 'active':''}}">
+                    <a href="{{url('/admin/free-material-users/all')}}" class="menu-link">
+                        <div data-i18n="Without menu">Add Free Materials</div>
                     </a>
                 </li>
             </ul>

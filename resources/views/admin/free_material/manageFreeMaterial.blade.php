@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Manage Products</title>
+    <title>Manage Free Materials</title>
 
     <meta name="description" content="" />
 
@@ -42,29 +42,29 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Program /</span> Manage</h4>
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Free Materials /</span> Manage</h4>
                         <div class="card">
                             <div style="display: flex;">
-                                <h5 class="card-header">Manage Program</h5>
+                                <h5 class="card-header">Manage Free Materials</h5>
                                 <h5 class="card-header">
-                                    <a type="button" href="{{ url('admin/program/add') }}"
+                                    <a type="button" href="{{ url('admin/free-material/add') }}"
                                         class="btn btn-outline-secondary btn-small text-red"
                                         title="Edit Client Details">Add
                                         New</a>
                                 </h5>
                             </div>
-                            <div class="table table-responsive">
+                            <div class="table  table-responsive">
                                 <table id="table_id" class="display">
                                     <thead>
                                         <tr>
-                                            <th>Sr No.</th>
-                                            <th>Program Name</th>
-                                            <th>Status</th>
-                                            <th>Created at</th>
-                                            <th>Banner Actions</th>
-                                            <th>Page Banner Actions</th>
-                                            <th>Edit Actions</th>
-                                            <th>Update Status Actions</th>
+                                            <th class="py-3 px-1">Sr No.</th>
+                                            <th class="py-3 px-1">Age Group</th>
+                                            <th class="py-3 px-1">File Name</th>
+                                            <th class="py-3 px-1">Status</th>
+                                            <th class="py-3 px-1">Created at</th>
+                                            <th class="py-3 px-1">Edit Actions</th>
+                                            <th class="py-3 px-1">Update File</th>
+                                            <th class="py-3 px-1">Update Status Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -72,9 +72,11 @@
                                         @foreach ($data as $singledata)
                                         <tr>
                                             <td>{{ $i++; }}</td>
-                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                {{ $singledata->name }} </td>
-                                            <td id="alert-{{ $singledata['program_uid'] }}">
+                                            <td class="py-3 px-2"><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                {{ $singledata->age_group }} </td>
+                                            <td class="py-3 px-2"><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                {{ $singledata->file_og_name }} </td>
+                                            <td class="py-3 px-2" id="alert-{{ $singledata['file_uid'] }}">
                                                 @if($singledata->status == '1')
                                                 <span class="btn alert-success btn-sm">Active</span>
                                                 @else
@@ -82,31 +84,29 @@
                                                 @endif
                                         
                                             </td>
-                                            <td>{{ date('D, M Y',strtotime($singledata->created_at)) }}</td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" onclick="UpdateImageModal('banner','{{ $singledata['program_uid'] }}')"
-                                                    title="Edit Client Details">Add New Program Banner</a>
+                                            <td class="py-3 px-2">{{ date('D, M Y',strtotime($singledata->created_at)) }}</td>
+                                            <td class="py-3 px-2">
+                                                <a class="btn btn-primary text-white btn-sm" href="{{ env('APP_URL').'/admin/free-material/edit/'.$singledata['file_uid'] }}"
+                                                    title="Edit Faq Details">Edit</a>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" onclick="UpdateImageModal('page_','{{ $singledata['program_uid'] }}')"
-                                                    title="Edit Client Details">Add New Page Banner</a>
+                                            <td class="py-3 px-2">
+                                                <a class="btn btn-primary text-white btn-sm" onclick="UpdateImageModal('{{ $singledata['file_uid'] }}')"
+                                                    title="Edit Faq Details">Update Assets</a>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" href="{{ env('APP_URL').'/admin/program/edit/'.$singledata['program_uid'] }}"
-                                                    title="Edit Client Details">Edit</a>
-                                            </td>
-                                            <td>
-                                            <a class="btn btn-primary text-white btn-sm" onclick="deleteProgram('{{ $singledata['program_uid'] }}');"
-                                                title="Delete Client Data">Update Status</a>
+                                            <td class="py-3 px-2">
+                                            <a class="btn btn-primary text-white btn-xs" onclick="deleteFaq('{{ $singledata['file_uid'] }}');"
+                                                title="Delete Faq Data">Update Status</a>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot>
-                                        <!-- Pagination Starts -->
-                                        <!-- Pagination Ends -->
-                                    </tfoot>
                                 </table>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <!-- Pagination Starts -->
+                                {{ $data->links() }}
+                                <!-- Pagination Ends -->
                             </div>
                         </div>
                     </div>
@@ -124,11 +124,8 @@
     </div>
     <!-- / Layout wrapper -->
 
-        <!-- Assets Modal -->
-        @include('admin.program.assets_modal')
-        
-        <!-- Specification Modal -->
-        @include('admin.program.specification_modal')
+    <!-- Assets Modal -->
+    @include('admin.free_material.assets_modal')
     </div>
 
     <style>
@@ -187,14 +184,17 @@
     }
 
     $(document).ready(function() {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable({
+            info: false,
+            paging: false,
+        });
     });
 
     // Get Assets
-    async function UpdateImageModal(column, program_uid) {
+    async function UpdateImageModal(file_uid) {
 
         // Call Ajax and populate Data
-        await axios.get(`${url}/admin/program/assets/get/${column}/${program_uid}`).then(function(response) {
+        await axios.get(`${url}/admin/free-material/assets/get/${file_uid}`).then(function(response) {
             // handle success
             $('#assetsData').html(response.data.html);
             if (response.data.type === 'error') {
@@ -204,9 +204,8 @@
             show_Toaster(err.response.data.message, 'error')
         })
 
-        $('.program_uid').val(program_uid)
-        $('.update_type').val(column)
-        $('.addNewAssetsID').val(program_uid)
+        $('.file_uid').val(file_uid)
+        $('.addNewAssetsID').val(file_uid)
         $('#preview_assets').attr('src','')
 
         $('#basicModal').modal('show');
@@ -222,58 +221,38 @@
         e.preventDefault();
         $('.update_type').text('Please Wait...');
         var formdata = new FormData(this);
-        formdata.append('update_type', $('.update_type').val()); 
-        axios.post(`${url}/admin/program/addAssets`, formdata).then(function(response) {
+        axios.post(`${url}/admin/free-material/addAssets`, formdata).then(function(response) {
             // handle success
             $("#addNewAssets")[0].reset();
-            $('.update_type').text('Upload Image');
+            $('.update_type').text('Upload File');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
-                UpdateImageModal($('.update_type').val(), $('#program_uid').val())
+                UpdateImageModal($('#file_uid').val())
             }
         }).catch(function(err) {
-            $('.update_type').text('Upload Image');
+            $('.update_type').text('Upload File');
             show_Toaster(err.response.data.message, 'error')
         })
     });
 
-    function deleteProgram(program_uid) {
+    function deleteFaq(file_uid) {
         if (confirm('Are you sure?')) {
-            axios.post(`${url}/admin/program/delete/${program_uid}`, {
-                program_uid
+            axios.post(`${url}/admin/free-material/delete/${file_uid}`, {
+                file_uid
             }).then(function(response) {
                 // handle success
                 show_Toaster(response.data.message, response.data.type)
                 if (response.data.type === 'success') {
                     if(response.data.status == 'Active'){
-                        document.getElementById(`alert-${program_uid}`).innerHTML = '<span class="btn alert-success btn-sm">Active</span>';
+                        document.getElementById(`alert-${file_uid}`).innerHTML = '<span class="btn alert-success btn-sm">Active</span>';
                     }
                     else if(response.data.status == 'Deactive'){
-                        document.getElementById(`alert-${program_uid}`).innerHTML = '<span class="btn alert-danger btn-sm">Deactived</span>';
+                        document.getElementById(`alert-${file_uid}`).innerHTML = '<span class="btn alert-danger btn-sm">Deactived</span>';
                     }
                 }
             }).catch(function(err) {
                 show_Toaster(err.response.data.message, 'error')
             })
-        }
-    }
-
-    function previewFile(inputElement, previewElementId) {
-        const file = inputElement.files[0]; // Get the selected file
-        const previewElement = document.getElementById(previewElementId);
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                // Set preview for images
-                if (file.type.startsWith("image/")) {
-                    previewElement.src = e.target.result;
-                } else {
-                    alert("Only image files can be previewed!");
-                }
-            };
-            reader.readAsDataURL(file); // Convert to base64
         }
     }
 

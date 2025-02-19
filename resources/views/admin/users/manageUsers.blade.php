@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Manage Products</title>
+    <title>Manage Faqs</title>
 
     <meta name="description" content="" />
 
@@ -42,29 +42,28 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Program /</span> Manage</h4>
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Faqs /</span> Manage</h4>
                         <div class="card">
                             <div style="display: flex;">
-                                <h5 class="card-header">Manage Program</h5>
+                                <h5 class="card-header">Manage Faqs</h5>
                                 <h5 class="card-header">
-                                    <a type="button" href="{{ url('admin/program/add') }}"
+                                    <a type="button" href="{{ url('admin/faq/add') }}"
                                         class="btn btn-outline-secondary btn-small text-red"
                                         title="Edit Client Details">Add
                                         New</a>
                                 </h5>
                             </div>
-                            <div class="table table-responsive">
+                            <div class="table  table-responsive">
                                 <table id="table_id" class="display">
                                     <thead>
                                         <tr>
-                                            <th>Sr No.</th>
-                                            <th>Program Name</th>
-                                            <th>Status</th>
-                                            <th>Created at</th>
-                                            <th>Banner Actions</th>
-                                            <th>Page Banner Actions</th>
-                                            <th>Edit Actions</th>
-                                            <th>Update Status Actions</th>
+                                            <th class="py-3 px-1">Sr No.</th>
+                                            <th class="py-3 px-1">Faqs Question</th>
+                                            <th class="py-3 px-1">Faqs Answer</th>
+                                            <th class="py-3 px-1">Status</th>
+                                            <th class="py-3 px-1">Created at</th>
+                                            <th class="py-3 px-1">Edit Actions</th>
+                                            <th class="py-3 px-1">Update Status Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -72,9 +71,11 @@
                                         @foreach ($data as $singledata)
                                         <tr>
                                             <td>{{ $i++; }}</td>
-                                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                {{ $singledata->name }} </td>
-                                            <td id="alert-{{ $singledata['program_uid'] }}">
+                                            <td class="py-3 px-2"><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                {{ $singledata->question }} </td>
+                                            <td class="py-3 px-2"><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                {{ $singledata->answer }} </td>
+                                            <td class="py-3 px-2" id="alert-{{ $singledata['faq_uid'] }}">
                                                 @if($singledata->status == '1')
                                                 <span class="btn alert-success btn-sm">Active</span>
                                                 @else
@@ -82,31 +83,25 @@
                                                 @endif
                                         
                                             </td>
-                                            <td>{{ date('D, M Y',strtotime($singledata->created_at)) }}</td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" onclick="UpdateImageModal('banner','{{ $singledata['program_uid'] }}')"
-                                                    title="Edit Client Details">Add New Program Banner</a>
+                                            <td class="py-3 px-2">{{ date('D, M Y',strtotime($singledata->created_at)) }}</td>
+                                            <td class="py-3 px-2">
+                                                <a class="btn btn-primary text-white btn-sm" href="{{ env('APP_URL').'/admin/faq/edit/'.$singledata['faq_uid'] }}"
+                                                    title="Edit Faq Details">Edit</a>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" onclick="UpdateImageModal('page_','{{ $singledata['program_uid'] }}')"
-                                                    title="Edit Client Details">Add New Page Banner</a>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary text-white btn-sm" href="{{ env('APP_URL').'/admin/program/edit/'.$singledata['program_uid'] }}"
-                                                    title="Edit Client Details">Edit</a>
-                                            </td>
-                                            <td>
-                                            <a class="btn btn-primary text-white btn-sm" onclick="deleteProgram('{{ $singledata['program_uid'] }}');"
-                                                title="Delete Client Data">Update Status</a>
+                                            <td class="py-3 px-2">
+                                            <a class="btn btn-primary text-white btn-xs" onclick="deleteFaq('{{ $singledata['faq_uid'] }}');"
+                                                title="Delete Faq Data">Update Status</a>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot>
-                                        <!-- Pagination Starts -->
-                                        <!-- Pagination Ends -->
-                                    </tfoot>
                                 </table>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <!-- Pagination Starts -->
+                                {{ $data->links() }}
+                                <!-- Pagination Ends -->
                             </div>
                         </div>
                     </div>
@@ -123,12 +118,6 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
-        <!-- Assets Modal -->
-        @include('admin.program.assets_modal')
-        
-        <!-- Specification Modal -->
-        @include('admin.program.specification_modal')
     </div>
 
     <style>
@@ -187,14 +176,17 @@
     }
 
     $(document).ready(function() {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable({
+            info: false,
+            paging: false,
+        });
     });
 
     // Get Assets
-    async function UpdateImageModal(column, program_uid) {
+    async function UpdateImageModal(column, faq_uid) {
 
         // Call Ajax and populate Data
-        await axios.get(`${url}/admin/program/assets/get/${column}/${program_uid}`).then(function(response) {
+        await axios.get(`${url}/admin/Faqs/assets/get/${column}/${faq_uid}`).then(function(response) {
             // handle success
             $('#assetsData').html(response.data.html);
             if (response.data.type === 'error') {
@@ -204,9 +196,9 @@
             show_Toaster(err.response.data.message, 'error')
         })
 
-        $('.program_uid').val(program_uid)
+        $('.faq_uid').val(faq_uid)
         $('.update_type').val(column)
-        $('.addNewAssetsID').val(program_uid)
+        $('.addNewAssetsID').val(faq_uid)
         $('#preview_assets').attr('src','')
 
         $('#basicModal').modal('show');
@@ -223,13 +215,13 @@
         $('.update_type').text('Please Wait...');
         var formdata = new FormData(this);
         formdata.append('update_type', $('.update_type').val()); 
-        axios.post(`${url}/admin/program/addAssets`, formdata).then(function(response) {
+        axios.post(`${url}/admin/Faqs/addAssets`, formdata).then(function(response) {
             // handle success
             $("#addNewAssets")[0].reset();
             $('.update_type').text('Upload Image');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
-                UpdateImageModal($('.update_type').val(), $('#program_uid').val())
+                UpdateImageModal($('.update_type').val(), $('#faq_uid').val())
             }
         }).catch(function(err) {
             $('.update_type').text('Upload Image');
@@ -237,19 +229,19 @@
         })
     });
 
-    function deleteProgram(program_uid) {
+    function deleteFaq(faq_uid) {
         if (confirm('Are you sure?')) {
-            axios.post(`${url}/admin/program/delete/${program_uid}`, {
-                program_uid
+            axios.post(`${url}/admin/Faqs/delete/${faq_uid}`, {
+                faq_uid
             }).then(function(response) {
                 // handle success
                 show_Toaster(response.data.message, response.data.type)
                 if (response.data.type === 'success') {
                     if(response.data.status == 'Active'){
-                        document.getElementById(`alert-${program_uid}`).innerHTML = '<span class="btn alert-success btn-sm">Active</span>';
+                        document.getElementById(`alert-${faq_uid}`).innerHTML = '<span class="btn alert-success btn-sm">Active</span>';
                     }
                     else if(response.data.status == 'Deactive'){
-                        document.getElementById(`alert-${program_uid}`).innerHTML = '<span class="btn alert-danger btn-sm">Deactived</span>';
+                        document.getElementById(`alert-${faq_uid}`).innerHTML = '<span class="btn alert-danger btn-sm">Deactived</span>';
                     }
                 }
             }).catch(function(err) {

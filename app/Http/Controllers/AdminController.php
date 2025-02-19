@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Residential;
+use App\Models\Program;
+use App\Models\Gallery;
+use App\Models\Review;
+use App\Models\User;
 use App\Models\Commercial;
+use App\Models\Residential;
+// use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -30,32 +37,42 @@ class AdminController extends Controller
         return response()->json([
             'message' => 'Unauthorized',
             'type'=>'failed'
-        ], 401);
+        ], 403);
         
         $request->session()->regenerate();
-        $request->session()->put('user_type', 'admin');
+        session(['user_type' => 'admin']);
+        
         return response()->json([
             'message'=>'welcome',
             'type'=>'success'
         ]);
+
     }
 
-    public function adminDashboard(Request $request){
-        $this->checkUserType($request);
+    public function adminDashboard(){
+        checkUserType();
         $data['page_type'] = 'dashboard';
+        $data['residential'] = Commercial::all()->count();
         $data['commercial'] = Commercial::all()->count();
-        $data['residential'] = Residential::all()->count();
+
+        $data['programs_count'] = Commercial::all()->count();
+        $data['enquiries_count'] = Residential::all()->count();
+        $data['reviews_count'] = Residential::all()->count();
+        $data['events_count'] = Residential::all()->count();
+        $data['free_asset_users_count'] = Residential::all()->count();
+        $data['latest_enquiry'] = Residential::all()->count();
         return view('admin.dashboard', $data);
     }
 
     public function adminAccountPage(){
+        checkUserType();
         $data['page_type'] = 'adminAccount';
         $data['account'] = Admin::where('id', Auth::guard('admin')->user()->id)->first();
         return view('admin.account', $data);
     }
 
-    public function adminAccountUpdate(Request $request, $id){
-        $this->checkUserType($request);
+    public function adminAccountUpdate($id){
+        checkUserType();
         $validatedData = $request->validate([
             'name' => 'required|string',
             'logo' => 'file|mimes:jpeg,png,jpg,mp4,mov,avi|max:20480',
@@ -85,18 +102,13 @@ class AdminController extends Controller
         }
     }
 
-    public function checkUserType(Request $request){
-        // Check User Type and Redirect
-        if($request->session()->has('user_type') && $request->session()->get('user_type') != 'admin')
-          return redirect()->route('adminLogin');
-    }
-
-
     public function generatePassword($newPass = 'Admin@123'){
         return Hash::make($newPass);
     }
 
     public function logout(){
-        return redirect()->route('adminLogin');
+        Auth::logout();
+        Session::flush();
+        return Redirect::to('/admin');
     }
 }

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('program_uid');
             $table->string('name');
             $table->string('banner');
+            $table->string('page_banner');
             $table->string('title');
+            $table->string('slug');
             $table->text('short_description');
             $table->longText('long_description');
             $table->longText('learning_areas')->nullable();

@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GeneralSettingController;
 use App\Http\Controllers\ProductEnquiryController;
+use App\Http\Controllers\FreeMaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,15 +50,19 @@ Route::prefix('admin')->group(function () {
     Route::get('/program/all',[ProgramController::class,'index'])->name('pr3ogramsAll');
     Route::get('/program/add',[ProgramController::class,'create'])->name('programAdd');
     Route::get('/program/edit/{program_uid}',[ProgramController::class,'edit'])->name('programEdit');
-    Route::get('/program/assets/get/{program_uid}',[ProgramController::class,'getAssets'])->name('programGetAssets');
+    Route::get('/program/assets/get/{column}/{program_uid}',[ProgramController::class,'getAssets'])->name('programGetAssets');
     Route::get('/program/enquiries',[ProductEnquiryController::class,'index'])->name('programsEnquiryAll');
 
-    // Category Routes
-    Route::get('/category/all',[CategoryController::class,'index'])->name('categories');
-    Route::get('/category/add',[CategoryController::class,'create'])->name('categoryAdd');
-    Route::get('/category/edit/{category_uid}',[CategoryController::class,'edit'])->name('categoryEdit');
-
-    // Product Enquiries
+    // Faqs Routes
+    Route::get('/faq/all',[FaqController::class,'index'])->name('faqs');
+    Route::get('/faq/add',[FaqController::class,'create'])->name('faqAdd');
+    Route::get('/faq/edit/{faq_uid}',[FaqController::class,'edit'])->name('faqEdit');
+    
+    // Free Material Users
+    Route::get('/free-material-users/all',[FreeMaterialController::class,'index'])->name('freeMaterialAll');
+    Route::get('/free-material/add',[FreeMaterialController::class,'create'])->name('freeMaterialAdd');
+    Route::get('/free-material/edit/{file_uid}',[FreeMaterialController::class,'edit'])->name('freeMaterialEdit');
+    Route::get('/free-material/assets/get/{file_uid}',[FreeMaterialController::class,'getAssets'])->name('freeMaterialGetAssets');
 
     // Post Routes
     Route::post('/adminLoginPost',[AdminController::class,'adminLoginPost']);
@@ -68,9 +73,14 @@ Route::prefix('admin')->group(function () {
     Route::post('/program/addAssets',[ProgramController::class,'addAssets'])->name('programAddAssets');
     Route::post('/program/deleteAssets/{program_uid}/{key}',[ProgramController::class,'deleteAssets'])->name('programDeleteAssets');
     
-    Route::post('/category/add',[CategoryController::class,'store'])->name('categoryAddPost');
-    Route::post('/category/edit/{category_uid}',[CategoryController::class,'update'])->name('categoryEdit');
-    Route::post('/category/delete/{category_uid}',[CategoryController::class,'delete'])->name('categoryDelete');
+    Route::post('/faq/add',[FaqController::class,'store'])->name('faqAddPost');
+    Route::post('/faq/edit/{faq_uid}',[FaqController::class,'update'])->name('faqEdit');
+    Route::post('/faq/delete/{faq_uid}',[FaqController::class,'delete'])->name('faqDelete');
+
+    Route::post('/free-material/add',[FreeMaterialController::class,'store'])->name('freeMaterialAddPost');
+    Route::post('/free-material/edit/{free_material_uid}',[FreeMaterialController::class,'update'])->name('freeMaterialEdit');
+    Route::post('/free-material/delete/{free_material_uid}',[FreeMaterialController::class,'delete'])->name('freeMaterialDelete');
+    Route::post('//free-material/addAssets',[FreeMaterialController::class,'addAssets'])->name('freeMaterialAddAssets');
     
     Route::post('/settings/all/',[AdminController::class,'settingEdit'])->name('settingEdit');
     Route::post('/settings/edit/{id}',[GeneralSettingController::class,'update'])->name('settingEdit');

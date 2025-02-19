@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
@@ -12,9 +13,10 @@ class FaqController extends Controller
      */
     public function index()
     {
-        $data['categories'] = Category::orderBy('id','desc')->get();
-        $data['page_type'] = 'categoryAll'; 
-        return view('admin.category.manageCategories', $data);
+        checkUserType();
+        $data['data'] = Faq::orderBy('id','desc')->paginate(1);
+        $data['page_type'] = 'faqAll'; 
+        return view('admin.faq.manageFaqs', $data);
     }
 
     /**
@@ -22,8 +24,9 @@ class FaqController extends Controller
      */
     public function create()
     {
-        $data['page_type'] = 'categoryAdd'; 
-        return view('admin.category.addCategory', $data);
+        checkUserType();
+        $data['page_type'] = 'faqAdd'; 
+        return view('admin.faq.addFaq', $data);
     }
 
     /**
@@ -33,21 +36,19 @@ class FaqController extends Controller
     {
         // Validation
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'short_desc' => 'required',
-            'long_desc' => 'required',
+            'question' => 'required',
+            'answer' => 'required'
         ]);
 
         $assets = [];
-        $categoryUid = (string)Str::uuid()->getHex();
-
-        $validatedData['category_uid'] = $categoryUid;
-        $validatedData['property_assets'] = json_encode($assets);
+        $faqUid = Str::uuid()->toString();
+        $validatedData['faq_uid'] = $faqUid;
         $validatedData['status'] = '1';
-        $update = Category::create($validatedData);
-        if($update){
+
+        $create = Faq::create($validatedData);
+        if($create){
             return response()->json([
-                'message'=>'Category Category Created Successfully!',
+                'message'=>'Faq Created Successfully!',
                 'type'=>'success'
             ]);
         }else{
@@ -61,7 +62,7 @@ class FaqController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $Category)
+    public function show(faq $faq)
     {
         
     }
@@ -69,29 +70,29 @@ class FaqController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($category_uid)
+    public function edit($faq_uid)
     {
-        $data['page_type'] = 'categoryEdit'; 
-        $data['category_data'] = Category::where('category_uid', $category_uid)->first(); 
-        return view('admin.category.editCategory', $data);
+        checkUserType();
+        $data['page_type'] = 'faqEdit'; 
+        $data['data'] = Faq::where('faq_uid', $faq_uid)->first(); 
+        return view('admin.faq.editFaq', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $category_uid)
+    public function update(Request $request, $faq_uid)
     {
         // Validation
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'short_desc' => 'required',
-            'long_desc' => 'required',
+            'question' => 'required',
+            'answer' => 'required'
         ]);
 
-        $update = Category::where('category_uid',$category_uid)->update($validatedData);
+        $update = Faq::where('faq_uid',$faq_uid)->update($validatedData);
         if($update){
             return response()->json([
-                'message'=>'Category Category Updated Successfully!',
+                'message'=>'faq Updated Successfully!',
                 'type'=>'success'
             ]);
         }else{
@@ -106,23 +107,22 @@ class FaqController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request, $category_uid)
+    public function delete(Request $request, $faq_uid)
     {
-        $this->checkUserType($request);
-        $Category = Category::where('category_uid' , $category_uid)->first();
+        $faq = Faq::where('faq_uid' , $faq_uid)->first();
 
-        if($Category){
+        if($faq){
 
-            if($Category->status == '1')
+            if($faq->status == '1')
                 $status = '0';
-            else if($Category->status == '0')
+            else if($faq->status == '0')
                 $status = '1';
 
-            $delete = Category::where('category_uid' , $category_uid)->update(['status' => $status]);
+            $delete = Faq::where('faq_uid' , $faq_uid)->update(['status' => $status]);
 
             if($delete){
                 return response()->json([
-                    'message'=>'Category Category Status Updated Successfully!',
+                    'message'=>'faq faq Status Updated Successfully!',
                     'type'=>'success',
                     'status' => ($status == '1' ? 'Active' : 'Deactive')
                 ]);
@@ -134,56 +134,10 @@ class FaqController extends Controller
             }
         }else{
             return response()->json([
-                'message'=>'Invalid Category Unique ID!',
+                'message'=>'Invalid faq Unique ID!',
                 'type'=>'error'
             ]);
         }
-    }
-
-    public function deleteAssets(Request $request, $category_uid, $key){
-        $this->checkUserType($request);
-        // remove image from Category DB
-        $propertyDetails = Category::select('property_assets')->where('category_uid', $category_uid)->first();
-        
-        if($propertyDetails && isset($propertyDetails->property_assets)){
-            $assetsArr = json_decode($propertyDetails->property_assets, true);
-
-            if(isset($assetsArr[$key])){
-                $imagePath = $assetsArr[$key]['path']; // Specify the image path
-
-               
-                if ($this->deleteImage($imagePath)) {
-
-                    unset($assetsArr[$key]);
-                    $newArr = json_encode($assetsArr);
-                    Category::where('category_uid', $category_uid)->update(['property_assets' => $newArr]);
-
-                    return response()->json([
-                        'message'=>'Category Category Asset deleted Successfully!',
-                        'type'=>'success'
-                    ]);
-                }else {
-                    return response()->json([
-                        'message'=>'Something went wrong, try again later.aasa',
-                        'type'=>'error'
-                    ]);
-                }
-            }else {
-                return response()->json([
-                    'message'=>'Something went wrong, try again later.',
-                    'type'=>'error'
-                ]);
-            }
-        }
-    }
-
-    public function deleteImage($imagePath)
-    {
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-            return true;
-        }
-        return false;
     }
 
     public function checkUserType(Request $request){
