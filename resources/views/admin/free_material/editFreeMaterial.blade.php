@@ -41,7 +41,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="editFree Materials">
+                                <form id="editFreeMaterial">
                                     @csrf
                                     <div class="card mb-4">
                                         <h5 class="card-header">Free Materials Details</h5>
@@ -106,16 +106,16 @@
         console.error( error );
     });
 
-    $('#editFree Materials').on('submit', function(e) {
+    $('#editFreeMaterial').on('submit', function(e) {
         e.preventDefault();
         $('#submitBtn').text('Please Wait...');
-        axios.post(`${url}/admin/faq/edit/{{ $data['faq_uid'] }}`, new FormData(this)).then(function(response) {
+        axios.post(`${url}/admin/free-material/edit/{{ $data['file_uid'] }}`, new FormData(this)).then(function(response) {
             // handle success
             $('#submitBtn').text('Edit Free Materials');
             show_Toaster(response.data.message, response.data.type)
             if (response.data.type === 'success') {
                 setTimeout(() => {
-                    window.location.href = `${url}/admin/faq/all`;
+                    window.location.href = `${url}/admin/free-material/all`;
                 }, 500);
             }
         }).catch(function(err) {

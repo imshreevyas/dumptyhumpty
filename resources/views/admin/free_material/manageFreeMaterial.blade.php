@@ -94,7 +94,7 @@
                                                     title="Edit Faq Details">Update Assets</a>
                                             </td>
                                             <td class="py-3 px-2">
-                                            <a class="btn btn-primary text-white btn-xs" onclick="deleteFaq('{{ $singledata['file_uid'] }}');"
+                                            <a class="btn btn-primary text-white btn-xs" onclick="deleteFreeMaterial('{{ $singledata['file_uid'] }}');"
                                                 title="Delete Faq Data">Update Status</a>
                                             </td>
                                         </tr>
@@ -235,7 +235,7 @@
         })
     });
 
-    function deleteFaq(file_uid) {
+    function deleteFreeMaterial(file_uid) {
         if (confirm('Are you sure?')) {
             axios.post(`${url}/admin/free-material/delete/${file_uid}`, {
                 file_uid

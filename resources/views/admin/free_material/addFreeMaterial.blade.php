@@ -45,7 +45,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="addFaq">
+                                <form id="addFreeMaterial">
                                     @csrf
 
                                     <div class="card mb-4">
@@ -119,7 +119,7 @@
         console.error( error );
     } );
 
-    $('#addFaq').on('submit', function(e) {
+    $('#addFreeMaterial').on('submit', function(e) {
         e.preventDefault();
         $('#submitBtn').text('Please Wait...');
         axios.post(`${url}/admin/free-material/add`, new FormData(this)).then(function(response) {

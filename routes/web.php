@@ -59,7 +59,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/faq/edit/{faq_uid}',[FaqController::class,'edit'])->name('faqEdit');
     
     // Free Material Users
-    Route::get('/free-material-users/all',[FreeMaterialController::class,'index'])->name('freeMaterialAll');
+    Route::get('/free-material-users/all',[UserController::class,'index'])->name('userAll');
+    Route::get('/free-material/all',[FreeMaterialController::class,'index'])->name('freeMaterialAll');
     Route::get('/free-material/add',[FreeMaterialController::class,'create'])->name('freeMaterialAdd');
     Route::get('/free-material/edit/{file_uid}',[FreeMaterialController::class,'edit'])->name('freeMaterialEdit');
     Route::get('/free-material/assets/get/{file_uid}',[FreeMaterialController::class,'getAssets'])->name('freeMaterialGetAssets');
@@ -78,9 +79,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/faq/delete/{faq_uid}',[FaqController::class,'delete'])->name('faqDelete');
 
     Route::post('/free-material/add',[FreeMaterialController::class,'store'])->name('freeMaterialAddPost');
-    Route::post('/free-material/edit/{free_material_uid}',[FreeMaterialController::class,'update'])->name('freeMaterialEdit');
-    Route::post('/free-material/delete/{free_material_uid}',[FreeMaterialController::class,'delete'])->name('freeMaterialDelete');
-    Route::post('//free-material/addAssets',[FreeMaterialController::class,'addAssets'])->name('freeMaterialAddAssets');
+    Route::post('/free-material/edit/{file_uid}',[FreeMaterialController::class,'update'])->name('freeMaterialEdit');
+    Route::post('/free-material/delete/{file_uid}',[FreeMaterialController::class,'delete'])->name('freeMaterialDelete');
+    Route::post('/free-material/addAssets',[FreeMaterialController::class,'addAssets'])->name('freeMaterialAddAssets');
     
     Route::post('/settings/all/',[AdminController::class,'settingEdit'])->name('settingEdit');
     Route::post('/settings/edit/{id}',[GeneralSettingController::class,'update'])->name('settingEdit');

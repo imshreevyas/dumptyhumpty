@@ -101,30 +101,55 @@ class FreeMaterialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FreeMaterial $freeMaterial)
+    public function update(Request $request, $file_uid)
     {
-        
+        // Validation
+        $validatedData = $request->validate([
+            'file_og_name' => 'required',
+            'age_group' => 'required'
+        ]);
+
+        $fileData = FreeMaterial::where('file_uid', $file_uid)->first();
+        if(!$fileData){
+            return response()->json([
+                'message'=>'Invalid Program Unique ID!',
+                'type'=>'error'
+            ]);
+        }
+
+        $update = FreeMaterial::where('file_uid', $file_uid)->update($validatedData);
+        if($update){
+            return response()->json([
+                'message'=>'Free Material Updated Successfully!',
+                'type'=>'success'
+            ]);
+        }else{
+            return response()->json([
+                'message'=>'Something went wrong, try again later!',
+                'type'=>'error'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request, $category_uid)
+    public function delete($file_uid)
     {
-        $Program = Program::where('category_uid' , $category_uid)->first();
+        $fileData = FreeMaterial::where('file_uid' , $file_uid)->first();
 
-        if($Program){
+        if($fileData){
 
-            if($Program->status == '1')
+            if($fileData->status == '1')
                 $status = '0';
-            else if($Program->status == '0')
+            else if($fileData->status == '0')
                 $status = '1';
 
-            $delete = Program::where('category_uid' , $category_uid)->update(['status' => $status]);
+            $delete = FreeMaterial::where('file_uid' , $file_uid)->update(['status' => $status]);
 
             if($delete){
                 return response()->json([
-                    'message'=>'Program Status Updated Successfully!',
+                    'message'=>'Free Material Status Updated Successfully!',
                     'type'=>'success',
                     'status' => ($status == '1' ? 'Active' : 'Deactive')
                 ]);

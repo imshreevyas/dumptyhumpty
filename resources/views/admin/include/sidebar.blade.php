@@ -130,7 +130,7 @@
             <ul class="menu-sub">
 
                 <li class="menu-item {{ $page_type == 'usersAll' ? 'active':''}}">
-                    <a href="{{url('/admin/free-material-users/all')}}" class="menu-link">
+                    <a href="{{url('/admin/free-material/all')}}" class="menu-link">
                         <div data-i18n="Without menu">All Users</div>
                     </a>
                 </li>
